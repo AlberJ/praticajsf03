@@ -14,9 +14,12 @@
 		<h3>Turma</h3>
 		<h:form id="formNovo">
 			<h:outputLabel value="Nome: " id="nome"/>
-			<h:inputText value="#{turmasBean.turma.nome}"/>
+			<h:inputText value="#{turmasBean.nome}"/>
 			
-			<h:commandButton action="#{turmasBean.cadastrar[turma]}" value="Cadastrar"/>
+			<h:commandButton action="#{turmasBean.cadastrar}"
+							 value="Cadastrar"/>
+			
+			<h:commandButton action="#{turmasBean.voltar}" value="Voltar"/>
 		</h:form>
 	</p>
 </h:body>

@@ -109,7 +109,7 @@ public class Turma {
 
 	@Override
 	public String toString() {
-		return "Turma [id=" + id + ", nome=" + nome + ", alunos=" + alunos + "]";
+		return "Turma [id=" + id + ", nome=" + nome +"]";
 	}
 	
 	

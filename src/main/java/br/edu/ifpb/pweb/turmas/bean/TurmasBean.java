@@ -1,23 +1,34 @@
 package br.edu.ifpb.pweb.turmas.bean;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
 import br.edu.ifpb.pweb.turmas.dao.TurmaDAO;
 import br.edu.ifpb.pweb.turmas.model.Turma;
 
 @ManagedBean(name="turmasBean")
-@RequestScoped
-public class TurmasBean //FALTA A LETRA 'E' DA PÁGINA 3
+@SessionScoped
+public class TurmasBean 
 {
 	private Turma turma;
+	private String nome;
 	private List<Turma> turmas;
 	private Map<Long, Boolean> editavel;
+
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	public Map<Long, Boolean> getEditavel() {
 		return editavel;
@@ -52,25 +63,25 @@ public class TurmasBean //FALTA A LETRA 'E' DA PÁGINA 3
 			this.editavel.put(t.getId(), false);
 		}
 	}
-	
-	public String novo(){
-		return "cadastro";
-	}
 
-	public String cadastrar(){
+	public String cadastrar()
+	{
+		Turma nt = new Turma();
+		nt.setNome(nome);
+		
+		Date d = new Date();
+		nt.setDataCriacao(d);
+		
 		TurmaDAO tdao = new TurmaDAO();
 		tdao.beginTransaction();
-		tdao.insert(turma);
+		tdao.insert(nt);
 		tdao.commit();
-		System.out.println("Id da Turma: "+turma.getId().toString());
-		this.editavel.put(turma.getId(), false);
 		
-		return "index";
+		return "index?faces-redirect=true";
 	}
 	
 	public void salvar(Turma t)
 	{
-		System.out.println("Turma: "+t);
 		TurmaDAO tdao = new TurmaDAO();
 		tdao.beginTransaction();
 		tdao.update(t);
@@ -85,5 +96,13 @@ public class TurmasBean //FALTA A LETRA 'E' DA PÁGINA 3
 		tdao.delete(t);
 		tdao.commit();
 		this.editavel.remove(t.getId());
+	}
+	
+	public String cadastro(){
+		return "cadastro?faces-redirect=true";
+	}
+	
+	public String voltar(){
+		return "index?faces-redirect=true";
 	}
 }

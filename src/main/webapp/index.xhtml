@@ -6,44 +6,51 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+<!-- <f:metadata> -->
+<!-- 	<f:viewParam name="dataCriacao" value="#{turma.dataCriacao}"> -->
+<!-- 		<f:convertDateTime pattern="dd/MM/yyyy" /> -->
+<!-- 	</f:viewParam> -->
+<!-- </f:metadata> -->
+
 <h:head>
 	<title>Prática JSF 03</title>
-	
-	<h:outputStylesheet library="css" name="style.css"/>
-	<h:outputStylesheet library="font-awesome" name="css/font-awesome.css"/>
+
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="font-awesome" name="css/font-awesome.css" />
 </h:head>
 <h:body>
 	<h:form id="form">
-		<h:commandButton actionListener="#{turmasBean.listar}" value="Listar" />  
-		<h:commandButton action="#{turmasBean.novo}" value=" + "/>
-		
+		<h:commandButton actionListener="#{turmasBean.listar}" value="Listar" />
+		<h:commandButton action="#{turmasBean.cadastro}" value=" + " />
+
 		<h:dataTable id="table" value="#{turmasBean.turmas}" var="turma"
- 					border="1"
- 					rowClasses="greenRow, whiteRow" cellpadding="5" cellspacing="1"
- 					headerClass="header" rendered="#{turmasBean.turmas ne null}">
- 			<h:column>
- 				<h:selectBooleanCheckbox value="#{turmasBean.editavel[turma.id]}"
- 						onclick="submit();" />
+			border="1" rowClasses="greenRow, whiteRow" cellpadding="5"
+			cellspacing="1" headerClass="header"
+			rendered="#{turmasBean.turmas ne null}">
+			<h:column>
+				<h:selectBooleanCheckbox value="#{turmasBean.editavel[turma.id]}"
+					onclick="submit();" />
 			</h:column>
 			<h:column>
 				<f:facet name="header">ID</f:facet> #{turma.id}
 			</h:column>
 			<h:column>
 				<f:facet name="header">Nome</f:facet>
-				<h:outputText value="#{turma.nome}" />
-				<h:panelGroup >
+				<h:outputText value="#{turma.nome}"
+					rendered="#{turmasBean.editavel[turma.id] == false}" />
+				<h:panelGroup rendered="#{turmasBean.editavel[turma.id] == true}">
 					<h:inputText value="#{turma.nome}" />
-					<h:commandButton actionListener="#{turmasBean.salvar[turma]}" 
-							value="Salvar"/>
+					<h:commandButton actionListener="#{turmasBean.salvar(turma)}"
+						value="Salvar" />
 				</h:panelGroup>
 			</h:column>
 			<h:column>
-				<f:facet name="header">Criado em</f:facet> #{turma.dataCriacao}
+				<f:facet name="header">Criado em</f:facet>#{turma.dataCriacao}
 			</h:column>
-			<h:column >
-				<h:commandButton actionListener="#{turmasBean.excluir[turma]}" 
-								value="Excluir"/>
-			</h:column>			
+			<h:column>
+				<h:commandButton actionListener="#{turmasBean.excluir(turma)}"
+					value="Excluir" />
+			</h:column>
 		</h:dataTable>
 	</h:form>
 
